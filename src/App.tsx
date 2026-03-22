@@ -1,14 +1,17 @@
 import { useAuth, useTasks, useTimeRecords, useTimer, useTheme } from '@/hooks/useStore';
 import { AuthPage } from '@/sections/AuthPage';
-import { Dashboard } from '@/sections/Dashboard';
+import { Dashboard } from '@/sections/UserProfile';
+import { PricingPage, MembershipTier } from '@/sections/PricingPage';
 import type { AppData } from '@/types';
 
 function App() {
   const { isDark, toggle: toggleTheme } = useTheme();
-  const { user, login, register, logout, loginWithGoogle } = useAuth();
+  const { user, login, register, logout, loginWithGoogle, updateMembershipTier } = useAuth();
   const { tasks, addTask, toggleTask, deleteTask, addTimeToTask, importTasks, clearUserData: clearTasks } = useTasks(user?.id ?? null);
   const { records, addRecord, importRecords, clearUserData: clearRecords } = useTimeRecords(user?.id ?? null);
   const { timer, start, stop, getCurrentElapsed } = useTimer();
+
+  const membershipTier: MembershipTier = user?.membershipTier || 'free';
 
   const handleStartTimer = (taskId: string) => {
     if (timer.isRunning && timer.taskId !== taskId) {
@@ -59,6 +62,13 @@ function App() {
     clearRecords();
   };
 
+  const handleUpgrade = (tier: MembershipTier, plan: 'monthly' | 'yearly' | 'team') => {
+    console.log('Upgrade to:', tier, plan);
+    // 这里应该跳转到 PayPal 支付
+    // 支付成功后调用 updateMembershipTier(tier)
+    // updateMembershipTier(tier);
+    alert('PayPal 支付集成中...');
+
   if (!user) {
     return (
       <AuthPage
@@ -76,6 +86,7 @@ function App() {
       records={records}
       timer={timer}
       isDark={isDark}
+      membershipTier={membershipTier}
       getCurrentElapsed={getCurrentElapsed}
       onToggleTheme={toggleTheme}
       onLogout={logout}
@@ -86,6 +97,7 @@ function App() {
       onStopTimer={handleStopTimer}
       onImport={handleImport}
       onClearData={handleClearData}
+      onUpgrade={handleUpgrade}
     />
   );
 }

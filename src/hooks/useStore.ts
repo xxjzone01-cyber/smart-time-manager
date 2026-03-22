@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { User, Task, TimeRecord, TimerState, Priority } from '@/types';
+import type { User, Task, TimeRecord, TimerState, Priority, MembershipTier } from '@/types';
 
 const STORAGE_KEYS = {
   USER: 'ttm_user',
@@ -50,6 +50,7 @@ export function useAuth() {
       id: generateId(),
       email: email.toLowerCase(),
       name,
+      membershipTier: 'free',
       createdAt: new Date().toISOString(),
     };
     db[email.toLowerCase()] = { password, user: newUser };
@@ -64,6 +65,20 @@ export function useAuth() {
     localStorage.removeItem(STORAGE_KEYS.USER);
   }, []);
 
+  const updateMembershipTier = useCallback((tier: MembershipTier) => {
+    if (!user) return;
+    const updatedUser = { ...user, membershipTier: tier };
+    setUser(updatedUser);
+    saveToStorage(STORAGE_KEYS.USER, updatedUser);
+
+    // 同时更新数据库中的用户信息
+    const db = loadFromStorage<Record<string, { password: string; user: User }>>(STORAGE_KEYS.USERS_DB, {});
+    if (db[user.email]) {
+      db[user.email].user.membershipTier = tier;
+      saveToStorage(STORAGE_KEYS.USERS_DB, db);
+    }
+  }, [user]);
+
   // Google OAuth mock
   const loginWithGoogle = useCallback(() => {
     const mockUser: User = {
@@ -71,13 +86,14 @@ export function useAuth() {
       email: 'demo@gmail.com',
       name: 'Google 用户',
       avatar: 'https://ui-avatars.com/api/?name=Google+User&background=4285F4&color=fff',
+      membershipTier: 'free',
       createdAt: new Date().toISOString(),
     };
     setUser(mockUser);
     saveToStorage(STORAGE_KEYS.USER, mockUser);
   }, []);
 
-  return { user, login, register, logout, loginWithGoogle };
+  return { user, login, register, logout, loginWithGoogle, updateMembershipTier };
 }
 
 // =========== useTasks ===========

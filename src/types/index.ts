@@ -1,9 +1,12 @@
 // ============ User ============
+export type MembershipTier = 'free' | 'pro' | 'team';
+
 export interface User {
   id: string;
   email: string;
   name: string;
   avatar?: string;
+  membershipTier: MembershipTier;
   createdAt: string;
 }
 
