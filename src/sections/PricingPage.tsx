@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check, X, Crown, Zap, Users, Sparkles, CreditCard, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { PayPalPayment } from '@/components/PayPalPayment';
 
 export type MembershipTier = 'free' | 'pro' | 'team';
 
@@ -43,6 +44,8 @@ const FEATURES = {
 
 export function PricingPage({ currentTier, onUpgrade }: PricingPageProps) {
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly' | 'team'>('monthly');
+  const [showPayment, setShowPayment] = useState(false);
+  const [paymentTier, setPaymentTier] = useState<MembershipTier>('pro');
 
   const PLANS = [
     {
@@ -86,6 +89,16 @@ export function PricingPage({ currentTier, onUpgrade }: PricingPageProps) {
   };
 
   const currentTierInfo = getTierInfo(currentTier);
+
+  const handleUpgradeClick = () => {
+    setPaymentTier(selectedPlan === 'team' ? 'team' : 'pro');
+    setShowPayment(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    setShowPayment(false);
+    onUpgrade(paymentTier, selectedPlan);
+  };
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -209,7 +222,7 @@ export function PricingPage({ currentTier, onUpgrade }: PricingPageProps) {
         {currentTier === 'free' ? (
           <Button
             size="lg"
-            onClick={() => onUpgrade(selectedPlan === 'team' ? 'team' : 'pro', selectedPlan)}
+            onClick={handleUpgradeClick}
             className="px-12 bg-gradient-to-r from-blue-500 to-violet-600 hover:from-blue-400 hover:to-violet-500 font-semibold"
           >
             <CreditCard className="w-5 h-5 mr-2" />
@@ -223,6 +236,16 @@ export function PricingPage({ currentTier, onUpgrade }: PricingPageProps) {
           </p>
         )}
       </div>
+
+      {/* PayPal Payment Modal */}
+      {showPayment && (
+        <PayPalPayment
+          plan={selectedPlan}
+          tier={paymentTier}
+          onSuccess={handlePaymentSuccess}
+          onCancel={() => setShowPayment(false)}
+        />
+      )}
     </div>
   );
 }

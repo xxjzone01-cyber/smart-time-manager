@@ -64,10 +64,9 @@ function App() {
 
   const handleUpgrade = (tier: MembershipTier, plan: 'monthly' | 'yearly' | 'team') => {
     console.log('Upgrade to:', tier, plan);
-    // 这里应该跳转到 PayPal 支付
-    // 支付成功后调用 updateMembershipTier(tier)
-    // updateMembershipTier(tier);
-    alert('PayPal 支付集成中...');
+    // PayPal 支付成功后调用
+    updateMembershipTier(tier);
+  };
 
   if (!user) {
     return (
