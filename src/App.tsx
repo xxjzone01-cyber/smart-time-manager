@@ -1,8 +1,8 @@
 import { useAuth, useTasks, useTimeRecords, useTimer, useTheme } from '@/hooks/useStore';
 import { AuthPage } from '@/sections/AuthPage';
 import { Dashboard } from '@/sections/UserProfile';
-import { PricingPage, MembershipTier } from '@/sections/PricingPage';
-import type { AppData } from '@/types';
+import { PricingPage } from '@/sections/PricingPage';
+import type { AppData, MembershipTier } from '@/types';
 
 function App() {
   const { isDark, toggle: toggleTheme } = useTheme();
