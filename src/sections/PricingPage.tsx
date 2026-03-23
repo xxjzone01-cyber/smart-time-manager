@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Check, X, Crown, Zap, Users, Sparkles, CreditCard, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PayPalPayment } from '@/components/PayPalPayment';
+import type { MembershipTier } from '@/types';
 
-export type MembershipTier = 'free' | 'pro' | 'team';
+export type { MembershipTier };
 
 export interface PricingPageProps {
   currentTier: MembershipTier;
