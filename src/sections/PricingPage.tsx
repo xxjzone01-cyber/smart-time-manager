@@ -11,34 +11,42 @@ export interface PricingPageProps {
   onUpgrade: (tier: MembershipTier, plan: 'monthly' | 'yearly' | 'team') => void;
 }
 
+interface Feature {
+  name: string;
+  available: boolean;
+  highlight?: boolean;
+}
+
 const FEATURES = {
   free: [
-    { name: '无限任务', available: true },
+    { name: '最多 50 个任务', available: true },
     { name: '基础计时器', available: true },
-    { name: '数据导出(JSON)', available: true },
-    { name: '云端同步', available: true },
+    { name: '仅导出 JSON', available: true },
+    { name: '仅本地存储', available: true },
+    { name: '基础统计数据', available: true },
     { name: 'AI智能分析', available: false },
-    { name: '高级数据导出', available: false },
-    { name: '统计数据报表', available: false },
+    { name: '多设备同步', available: false },
+    { name: '团队协作', available: false },
   ],
   pro: [
-    { name: '无限任务', available: true },
-    { name: '基础计时器', available: true },
-    { name: '数据导出(JSON)', available: true },
-    { name: '云端同步', available: true },
-    { name: 'AI智能分析', available: true },
-    { name: '高级数据导出', available: true },
-    { name: '统计数据报表', available: true },
+    { name: '无限任务', available: true, highlight: true },
+    { name: '高级计时器(番茄钟+专注)', available: true },
+    { name: '导出 JSON/CSV/Excel/PDF', available: true, highlight: true },
+    { name: '云端自动同步', available: true, highlight: true },
+    { name: '详细统计报表', available: true },
+    { name: 'AI智能分析+建议', available: true, highlight: true },
+    { name: '多设备无缝同步', available: true },
+    { name: '优先级提醒', available: true },
   ],
   team: [
     { name: '无限任务', available: true },
-    { name: '基础计时器', available: true },
-    { name: '数据导出(JSON)', available: true },
-    { name: '云端同步', available: true },
-    { name: 'AI智能分析', available: true },
-    { name: '高级数据导出', available: true },
-    { name: '统计数据报表', available: true },
-    { name: '团队协作', available: true },
+    { name: '高级计时器(番茄钟+专注)', available: true },
+    { name: '导出 JSON/CSV/Excel/PDF', available: true },
+    { name: '云端自动同步', available: true },
+    { name: '详细统计报表', available: true },
+    { name: 'AI智能分析+建议', available: true },
+    { name: '多设备无缝同步', available: true },
+    { name: '团队协作', available: true, highlight: true },
     { name: '权限管理', available: true },
   ],
 };
@@ -177,8 +185,9 @@ export function PricingPage({ currentTier, onUpgrade }: PricingPageProps) {
                     ) : (
                       <X className="w-4 h-4 text-slate-600 flex-shrink-0" />
                     )}
-                    <span className={`text-sm ${feature.available ? 'text-slate-300' : 'text-slate-600'}`}>
+                    <span className={`text-sm ${feature.highlight ? 'font-semibold text-blue-400' : feature.available ? 'text-slate-300' : 'text-slate-600'}`}>
                       {feature.name}
+                      {feature.highlight && <Sparkles className="w-3.5 h-3.5 inline ml-1 text-amber-400" />}
                     </span>
                   </div>
                 ))}
@@ -190,7 +199,8 @@ export function PricingPage({ currentTier, onUpgrade }: PricingPageProps) {
 
       {/* Free Plan Features */}
       <div className="mb-12">
-        <h3 className="text-xl font-bold text-slate-100 mb-4">免费版功能</h3>
+        <h3 className="text-xl font-bold text-slate-100 mb-2">免费版功能</h3>
+        <p className="text-sm text-slate-500 mb-4">适合轻量使用，升级到 Pro 解锁完整体验</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {FEATURES.free.map((feature, idx) => (
             <div
