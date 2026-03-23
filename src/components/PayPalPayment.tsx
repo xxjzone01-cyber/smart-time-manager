@@ -63,7 +63,7 @@ export function PayPalPayment({ plan, tier, onSuccess, onCancel }: PayPalPayment
                 </span>
               </div>
               <div className="pt-2 border-t border-slate-700">
-                <p className="text-xs text-slate-500">• 随时取消  • 安全支付  • 30天退款保证</p>
+                <p className="text-xs text-slate-500">• 随时取消  • 安全支付</p>
               </div>
             </div>
 

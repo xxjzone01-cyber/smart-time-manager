@@ -16,10 +16,8 @@ interface DashboardProps {
   tasks: Task[];
   records: TimeRecord[];
   timer: TimerState;
-  isDark: boolean;
   membershipTier?: MembershipTier;
   getCurrentElapsed: () => number;
-  onToggleTheme: () => void;
   onLogout: () => void;
   onAddTask: (title: string, priority: Priority, dueDate?: string) => void;
   onToggleTask: (id: string) => void;
@@ -41,7 +39,7 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode; pro?: boolean }[] =
 export function Dashboard(props: DashboardProps) {
   const [tab, setTab] = useState<Tab>('tasks');
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const { user, tasks, records, timer, isDark, membershipTier = 'free', getCurrentElapsed } = props;
+  const { user, tasks, records, timer, membershipTier = 'free', getCurrentElapsed } = props;
 
   const initials = user.name.slice(0, 2).toUpperCase();
 
@@ -149,15 +147,6 @@ export function Dashboard(props: DashboardProps) {
             <Button
               variant="ghost"
               size="sm"
-              onClick={props.onToggleTheme}
-              className="flex-1 text-slate-400 hover:text-slate-200"
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              {sidebarOpen && <span className="ml-2">主题</span>}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
               onClick={props.onLogout}
               className="flex-1 text-slate-400 hover:text-red-400"
             >
@@ -192,14 +181,6 @@ export function Dashboard(props: DashboardProps) {
                 <span className="text-blue-300 text-xs font-mono">{formatClock(getCurrentElapsed())}</span>
               </div>
             )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={props.onToggleTheme}
-              className="w-8 h-8 p-0 text-slate-400"
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </Button>
             <Button
               variant="ghost"
               size="sm"

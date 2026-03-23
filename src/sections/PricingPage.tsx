@@ -15,6 +15,7 @@ interface Feature {
   name: string;
   available: boolean;
   highlight?: boolean;
+  comingSoon?: boolean;
 }
 
 const FEATURES = {
@@ -24,30 +25,30 @@ const FEATURES = {
     { name: '仅导出 JSON', available: true },
     { name: '仅本地存储', available: true },
     { name: '基础统计数据', available: true },
-    { name: 'AI智能分析', available: false },
-    { name: '多设备同步', available: false },
-    { name: '团队协作', available: false },
+    { name: 'AI智能分析', available: false, comingSoon: true },
+    { name: '多设备同步', available: false, comingSoon: true },
+    { name: '团队协作', available: false, comingSoon: true },
   ],
   pro: [
     { name: '无限任务', available: true, highlight: true },
-    { name: '高级计时器(番茄钟+专注)', available: true },
-    { name: '导出 JSON/CSV/Excel/PDF', available: true, highlight: true },
+    { name: '高级计时器(番茄钟+专注)', available: true, comingSoon: true },
+    { name: '导出 JSON/CSV/Excel/PDF', available: true, highlight: true, comingSoon: true },
     { name: '云端自动同步', available: true, highlight: true },
     { name: '详细统计报表', available: true },
-    { name: 'AI智能分析+建议', available: true, highlight: true },
+    { name: 'AI智能分析+建议', available: true, highlight: true, comingSoon: true },
     { name: '多设备无缝同步', available: true },
-    { name: '优先级提醒', available: true },
+    { name: '优先级提醒', available: true, comingSoon: true },
   ],
   team: [
     { name: '无限任务', available: true },
-    { name: '高级计时器(番茄钟+专注)', available: true },
-    { name: '导出 JSON/CSV/Excel/PDF', available: true },
+    { name: '高级计时器(番茄钟+专注)', available: true, comingSoon: true },
+    { name: '导出 JSON/CSV/Excel/PDF', available: true, comingSoon: true },
     { name: '云端自动同步', available: true },
     { name: '详细统计报表', available: true },
-    { name: 'AI智能分析+建议', available: true },
+    { name: 'AI智能分析+建议', available: true, highlight: true, comingSoon: true },
     { name: '多设备无缝同步', available: true },
-    { name: '团队协作', available: true, highlight: true },
-    { name: '权限管理', available: true },
+    { name: '团队协作', available: true, highlight: true, comingSoon: true },
+    { name: '权限管理', available: true, comingSoon: true },
   ],
 };
 
@@ -187,7 +188,8 @@ export function PricingPage({ currentTier, onUpgrade }: PricingPageProps) {
                     )}
                     <span className={`text-sm ${feature.highlight ? 'font-semibold text-blue-400' : feature.available ? 'text-slate-300' : 'text-slate-600'}`}>
                       {feature.name}
-                      {feature.highlight && <Sparkles className="w-3.5 h-3.5 inline ml-1 text-amber-400" />}
+                      {feature.highlight && !feature.comingSoon && <Sparkles className="w-3.5 h-3.5 inline ml-1 text-amber-400" />}
+                      {feature.comingSoon && <span className="ml-1.5 px-1.5 py-0.5 bg-amber-500/20 text-amber-400 text-xs rounded">即将推出</span>}
                     </span>
                   </div>
                 ))}

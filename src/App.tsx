@@ -84,10 +84,8 @@ function App() {
       tasks={tasks}
       records={records}
       timer={timer}
-      isDark={isDark}
       membershipTier={membershipTier}
       getCurrentElapsed={getCurrentElapsed}
-      onToggleTheme={toggleTheme}
       onLogout={logout}
       onAddTask={addTask}
       onToggleTask={toggleTask}
