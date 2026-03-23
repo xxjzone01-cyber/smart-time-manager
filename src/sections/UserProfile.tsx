@@ -6,8 +6,8 @@ import { TasksSection } from './TasksSection';
 import { TimerSection } from './TimerSection';
 import { DataManagement } from './DataManagement';
 import { StatsOverview } from './StatsOverview';
-import { PricingPage, MembershipTier } from './PricingPage';
-import type { User as UserType, Task, TimeRecord, TimerState, AppData, Priority } from '@/types';
+import { PricingPage } from './PricingPage';
+import type { User as UserType, Task, TimeRecord, TimerState, AppData, Priority, MembershipTier } from '@/types';
 
 type Tab = 'tasks' | 'timer' | 'stats' | 'data' | 'upgrade' | 'profile';
 
